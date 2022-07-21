@@ -1,0 +1,136 @@
+---
+title: "Boston Regression Analysis Code"
+author: "Matthew Hwang"
+date: "3/27/2022"
+output: html_document
+---
+
+Code and Resources Used
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
+library(alr4)
+library(corrplot)
+library(ggplot2)
+library(lmtest)
+
+boston.data <- read.csv("boston.csv")
+attach(boston.data)
+```
+
+Data Handling / Pre-Modeling
+
+Histogram Generation for all Vars
+
+```{r}
+
+# Focus of this is to ensure that our variables are not correlated and figuring out which variables to regress on.
+# We need to check assumptions on our dataset
+
+# Normality Assumption
+hist(boston.data$CRIM) # Heavy Rightward skew (Log transform?)
+hist(log(boston.data$CRIM)) # Bi-modal after log trasform # Ask Prof during office hours
+
+hist(boston.data$ZN) # Heavy Rightward Skew (Log transform?)
+
+hist(boston.data$INDUS) # Bi-modal
+hist(sqrt(boston.data$INDUS)) # Bi-modal
+#hist(log(boston.data$INDUS)) # Bi-modal
+
+hist(boston.data$CHAS) # Binary with heavy lean towards no boundary (ie CHAS = 0)
+
+hist(boston.data$NOX) # Relatively Normal
+hist(sqrt(boston.data$NOX)) # Relatively Normal
+#hist(log(boston.data$NOX)) # Relatively Normal
+
+
+hist(boston.data$RM) # Normal
+
+hist(boston.data$AGE) # Moderate Left Skew
+hist(sqrt(101 - boston.data$AGE)) # Reflection followed by sqrt transform
+
+
+hist(boston.data$DIS) # Right Skew 
+hist(log(boston.data$DIS)) # Log Tranform
+
+
+hist(boston.data$RAD) # Bi-modal Distribution
+hist(boston.data$TAX) # Bi-modal Distribution
+
+hist(boston.data$PTRATIO) # Relatively normal aside from a spike
+hist(sqrt(23-boston.data$PTRATIO)) # Relatively normal aside from a spike
+
+
+hist(boston.data$B)
+hist(log(397.9-boston.data$B)) # Left Skew
+
+
+hist((boston.data$LSTAT))
+hist(sqrt(boston.data$LSTAT)) # Right Skew (Sqrt Transform)
+
+
+hist((boston.data$MEDV)) # Relatively Normal
+hist(sqrt(boston.data$MEDV)) # Relatively Normal
+hist(log(boston.data$MEDV), base=exp(1)) # Relatively Normal
+hist(log(boston.data$MEDV)) # Relatively Normal
+hist(1/(boston.data$MEDV)) # Relatively Normal
+```
+
+Checking for correlation
+
+```{r}
+
+# Linearity
+# diag <- par(mfrow = c(2,2))
+scatterplot(MEDV ~ CRIM, data = boston.data) # not linear
+scatterplot(MEDV ~ log(CRIM), data = boston.data) # not linear
+
+scatterplot(MEDV ~ ZN, data = boston.data) # not linear
+
+scatterplot(MEDV ~ INDUS, data = boston.data) # not linear
+
+scatterplot(MEDV ~ CHAS, data = boston.data) # not linear
+
+scatterplot(MEDV ~ NOX, data = boston.data) # not linear
+
+scatterplot(MEDV ~ RM, data = boston.data) # not linear
+
+scatterplot(MEDV ~ AGE, data = boston.data) # not linear
+
+scatterplot(MEDV ~ DIS, data = boston.data) # not linear
+
+scatterplot(MEDV ~ RAD, data = boston.data) # not linear
+scatterplot(MEDV ~ TAX, data = boston.data) # not linear
+scatterplot(MEDV ~ PTRATIO, data = boston.data) # not linear
+scatterplot(MEDV ~ B, data = boston.data) # not linear
+scatterplot(MEDV ~ LSTAT, data = boston.data) # not linear
+
+pairs(cbind(log(boston.data$CRIM), boston.data$ZN, boston.data$INDUS, boston.data$NOX, boston.data$MEDV))
+pairs(cbind(boston.data$RM, boston.data$AGE, boston.data$DIS, boston.data$RAD, boston.data$MEDV))
+pairs(cbind(boston.data$TAX, boston.data$PTRATIO, boston.data$B, boston.data$LSTAT, boston.data$MEDV))
+
+pairs(cbind(log(boston.data$CRIM), boston.data$RM, boston.data$TAX, boston.data$LSTAT, boston.data$MEDV))
+boston.data$log_CRIM <- log(boston.data$CRIM)
+boxplot(boston.data)
+```
+
+Model Building
+
+```{r}
+summary(powerTransform(cbind(CRIM, INDUS, NOX, RM, AGE, DIS, RAD, TAX, PTRATIO, B, LSTAT, MEDV) ~ 1))
+# From running the power transform, we can see that DIS' Wald test bounds implies that a log transformation may be beneficial.
+
+f <- ~ CRIM + ZN + INDUS + CHAS + sqrt(NOX) + RM + AGE + log(DIS) + RAD + TAX + PTRATIO + B + sqrt(LSTAT)
+m0 <- lm(log(MEDV) ~ 1, boston.data) # note that sqrt vs log vs inverse transform changes BIC score by large amounts
+# m0 <- lm(sqrt(MEDV) ~ 1, boston.data) # alternative models included
+# m0 <- lm(1/(MEDV) ~ 1, boston.data)
+m.forward <- step(m0, scope = f, direction = "forward", k = log(506))
+# BIC = -1672.25 for log, -860 for sqrt, -4000 for inverse
+# Our selected final model rn is sqrt(MEDV) ~ sqrt(LSTAT) + PTRATIO + RM + CRIM + log(DIS) + sqrt(NOX) + CHAS + RAD + TAX
+
+summary(m.forward) # 80.77% of variation is explained by our explanatory variables
+confint(m.forward)
+durbinWatsonTest(m.forward) # model meets Independence criteria
+plot(m.forward) # appears normal except for minor extreme values, also residual errors have mean value of 0, linearity not exact but roughly equal variance throughout, roughly constant variance throughout, also found on plot function for model
+ncvTest(m.forward) # confirms constant variance, or fails to reject null hypothesis of constant variance
+plot(m.forward$residuals ~ m.forward$fitted.values)
+vif(m.forward) # VIF values do not exceed 10, so no major problems with collineaerity
+```
