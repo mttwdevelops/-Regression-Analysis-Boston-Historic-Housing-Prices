@@ -1,6 +1,4 @@
-# Boston Historic Housing Prices
-
-## Project Overview
+# Boston Historic Housing Prices: Project Overview
 - Take historic Boston housing pricing data and determine significant factors that lend towards home values
 - Build regression model that is able to estimate home prices (MEDV variable) based off of significant factors
 - Justify use of specific model
