@@ -47,6 +47,7 @@ All histograms and correlation plots are available in the report, but I will inc
 Box and whisker plot of all variables (in read in order):
 
 Histogram of the log transformation of MEDV (used log transformation to normalize right-skewed MEDV):
+![logMEDVhist](https://github.com/mttwdevelops/Regression-Analysis-Boston-Historic-Housing-Prices/blob/main/Photos/allboxandwhiskerplot.png)
 
 Correlation plot of CRIM, ZN, INDUS, NOX, MEDV:
 
