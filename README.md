@@ -45,17 +45,22 @@ Since the data was already cleaned up for analysis, I began to explore the diffe
 All histograms and correlation plots are available in the report, but I will include important ones here:
 
 Box and whisker plot of all variables (in read in order):
+![boxwhiskall](https://github.com/mttwdevelops/Regression-Analysis-Boston-Historic-Housing-Prices/blob/main/Photos/allboxandwhiskerplot.png)
 
 Histogram of the log transformation of MEDV (used log transformation to normalize right-skewed MEDV):
-![logMEDVhist](https://github.com/mttwdevelops/Regression-Analysis-Boston-Historic-Housing-Prices/blob/main/Photos/allboxandwhiskerplot.png)
+![histlogMEDV](https://github.com/mttwdevelops/Regression-Analysis-Boston-Historic-Housing-Prices/blob/main/Photos/logmedvhistplot.png)
 
 Correlation plot of CRIM, ZN, INDUS, NOX, MEDV:
+![corr1](https://github.com/mttwdevelops/Regression-Analysis-Boston-Historic-Housing-Prices/blob/main/Photos/pairsvar1to5.png)
 
 Correlation plot of RM, AGE, DIS, RAD, MEDV:
+![corr2](https://github.com/mttwdevelops/Regression-Analysis-Boston-Historic-Housing-Prices/blob/main/Photos/pairsvar1to5RM.png)
 
 Correlation plot of TAX, PTRATIO, B, LSTAT, MEDV:
+![corr3](https://github.com/mttwdevelops/Regression-Analysis-Boston-Historic-Housing-Prices/blob/main/Photos/pairsvar1to5Tax.png)
 
 Correlation plot of CRIM, RM, TAX, LSTAT, MEDV:
+![corr4](https://github.com/mttwdevelops/Regression-Analysis-Boston-Historic-Housing-Prices/blob/main/Photos/pairsvar1to5Crim.png)
 
 Variables with moderate correlation to MEDV include INDUS, RM, NOX, TAX, PTRATIO, LSTAT. TAX and RAD also have a high correlation at 0.91. 
 
