@@ -20,6 +20,7 @@ air. Journal of Environmental Economics and Management. 5. 81-102. 10.1016/0095-
 
 ## Variables Read In
 | Variable | Description |
+| --- | --- |
 | CRIM | Crime rate per capita by town [continuous] |
 | ZN | Proportion of residential land zoned for lots [continuous] |
 | INDUS | Proportion of non-retail business acres per town [continuous] |
@@ -61,6 +62,7 @@ Variables with moderate correlation to MEDV include INDUS, RM, NOX, TAX, PTRATIO
 I used stepwise forward BIC analysis to determine which variables would be the best predictors for the change in MEDV between areas. I chose BIC values instead of AIC due to the large sample size of our data. Performing this analysis with a inverse, log, and square root transformed MEDV ultimately lead me to picking the log transformation, as it strikes a good balance in BIC score while also being normalized better compared to the alternatives. Multicollinearity assumption test was completed with a vairance inflation factors test, which resulted in a value < 10 for all of the model's variables, which is acceptable. 
 
 | Model Type | BIC Score | R^2 Value |
+| --- | --- | --- |
 | 1/(MEDV) | -4311.18 | 0.6951 |
 | log(MEDV) | -1672.25 | 0.8077 |
 | sqrt(MEDV) | -832.83 | 0.8075 |
