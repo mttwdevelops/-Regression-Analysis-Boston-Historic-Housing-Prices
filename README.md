@@ -7,10 +7,13 @@
 
 ## Code and Resources Used
 RStudio Version: R 4.1.0
+
 Packages: alr4, corrplot, ggplot2, lmtest
+
 Boston Historic Housing Data: https://www.kaggle.com/datasets/fedesoriano/the-boston-houseprice-data
 
 Analysis inspired and data taken from:
+
 Harrison, David & Rubinfeld, Daniel. (1978). Hedonic housing prices and the demand for clean
 air. Journal of Environmental Economics and Management. 5. 81-102. 10.1016/0095-
 0696(78)90006-2.
