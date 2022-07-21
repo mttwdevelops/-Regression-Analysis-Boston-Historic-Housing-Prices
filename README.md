@@ -71,5 +71,7 @@ I used stepwise forward BIC analysis to determine which variables would be the b
 | log(MEDV) | -1672.25 | 0.8077 |
 | sqrt(MEDV) | -832.83 | 0.8075 |
 
+We can interpret the R^2 value as how well the model explains the variation in the data.
+
 ## Results
 With the data I modeled on various statistics collected during 1970 in Boston’s surrounding neighborhoods, I conclude that the percentage of lower status individuals in the population, per capita crime rate, pupil-teacher ratio, average number of rooms per house, distance to the five major employment centers, nitric oxides concentration, Charles River closeness, proportion of Black Americans per area, index of accessibility to radial highways, and the full-value property tax rate per $10,000 of a dwelling are significant variables to consider when appraising the value of home values in the surrounding Boston area. Naturally, due to the age of the data, this model is not as accurate when trended with 2022 data, but the scope of this analysis is not meant on being super accurate, rather to practice regression techniques and variable analysis in R.
